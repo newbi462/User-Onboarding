@@ -7,10 +7,10 @@ import axios from "axios";
 
 const PreFormikForm = ( { values, errors, touched, status } ) => {
 
-  const [onBoards, setOnBoards] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    status && setOnBoards(onBoards => [...onBoards, status]);
+    status && setUsers(users => [...users, status]);
   }, [status]);
 
   return (
@@ -40,7 +40,18 @@ const PreFormikForm = ( { values, errors, touched, status } ) => {
       )}
 
       <button>Submit</button>
+
+      <>
+      {users.map(item => (
+        <ul key={item.id}>
+          <li>Name: {item.name}</li>
+          <li>Email: {item.email}</li>
+        </ul>
+      ))}
+      </>
     </Form>
+
+
   );
 };
 
