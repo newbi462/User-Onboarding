@@ -25,6 +25,13 @@ const PreFormikForm = ( { values, errors, touched, status } ) => {
         <p className="errors">{errors.email}</p>
       )}
 
+      <Field as="select" name="role" >
+        <option>Please Choose Your Role</option>
+        <option value="web25">Web 25</option>
+        <option value="team-lead">Team Lead</option>
+        <option value="master-of-the-universe">Master of the Universe</option>
+      </Field>
+
       <Field type="password" name="password" placeholder="Password" />
 
       <label className="checkbox-container">
@@ -41,14 +48,15 @@ const PreFormikForm = ( { values, errors, touched, status } ) => {
 
       <button>Submit</button>
 
-      <>
       {users.map(item => (
+        <>
+        <h2>Name: {item.name}</h2>
         <ul key={item.id}>
-          <li>Name: {item.name}</li>
           <li>Email: {item.email}</li>
+          <li>Role: {item.role}</li>
         </ul>
+        </>
       ))}
-      </>
     </Form>
 
 
@@ -56,12 +64,13 @@ const PreFormikForm = ( { values, errors, touched, status } ) => {
 };
 
 const FormikForm = withFormik({
-  mapPropsToValues({ name, email, password, tos }) {
+  mapPropsToValues({ name, email, password, tos, role }) {
     return {
       name: name || "",
       email: email || "",
       password: password || "",
       tos: tos || false,
+      role: role || "",
     };
   },
   validationSchema: Yup.object().shape({
