@@ -2,9 +2,16 @@ import React, { useState, useEffect } from "react";
 
 import {withFormik, Form, Field } from "formik";
 import * as Yup from "yup"; // for everything
+import axios from "axios";
 
 
-const PreFormikForm = ( { values, errors, touched } ) => {
+const PreFormikForm = ( { values, errors, touched, status } ) => {
+
+  const [onBoards, setOnBoards] = useState([]);
+
+  useEffect(() => {
+    status && setOnBoards(onBoards => [...onBoards, status]);
+  }, [status]);
 
   return (
     <Form>
@@ -32,8 +39,7 @@ const PreFormikForm = ( { values, errors, touched } ) => {
         <p className="errors">{errors.tos}</p>
       )}
 
-
-      <button>Submit :)</button>
+      <button>Submit</button>
     </Form>
   );
 };
@@ -52,5 +58,14 @@ const FormikForm = withFormik({
     email: Yup.string().required(),
     tos: Yup.boolean(true).required()
   }),
+  handleSubmit(values, { setStatus }) {
+    axios
+      .post("https://reqres.in/api/users/", values)
+      .then(response => {
+        setStatus(response.data);
+        console.log(response);
+      })
+      .catch(error => console.log(error.response));
+  }
 })(PreFormikForm);
 export default FormikForm;
