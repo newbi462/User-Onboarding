@@ -76,7 +76,7 @@ const FormikForm = withFormik({
   validationSchema: Yup.object().shape({
     name: Yup.string().required(),
     email: Yup.string().required(),
-    tos: Yup.boolean(true).required()
+    tos: Yup.boolean().oneOf([true], "You must agree to the TOS")
   }),
   handleSubmit(values, { setStatus }) {
     axios
